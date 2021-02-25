@@ -48,25 +48,40 @@
             
     	<div class="card-body">
 
-            <% if(data.length) { %>
+            <%
+             var total = 0.0;
+             if(data.length) { %>
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Price</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for(var i=0; i< data.length; i++) { %>
+                        <% for(var i=0; i< data.length; i++) { 
+                          total +=  data[i].price;
+                          %>
                             <tr>
                                 <th scope="row">
                                     <%= (i+1) %>
                                 </th>
                                 <td>
-                                    <%= data[i].bookName%>
+                                    <%= data[i].name%>
                                 </td>
+                                <td class="text-right">
+                                  <%= data[i].price%>
+                              </td>
                             </tr>
                             <% } %>
+
+                            <tr>                          
+                              <td></td>
+                              <td><h3>Total</h3></td>
+                              <td class="text-right"><h3><strong><%=total%> ৳</strong></h3></td>
+                          </tr>
+                          
                     </tbody>
                 </table>
                 <% } %>
