@@ -168,4 +168,54 @@ router.get('/delete/(:id)', function(req, res, next) {
     })
 })
 
+// Add to cart
+router.get('/addtocart/(:id)/(:userId)/(:bookName)', function(req, res, next) {
+
+    let id = req.params.id;
+    let userId = req.params.userId;
+    let bookName = req.params.bookName
+    console.log(id);
+    console.log(userId);
+
+    var form_data = {
+        bookId: id,
+        userId: userId,
+        bookName: bookName
+    }
+     
+    // insert query
+    dbConn.query('INSERT INTO carts SET ?', form_data, function(err, result) {
+        //if(err) throw err
+        if (err) {
+            req.flash('error', err)
+                
+        } else {                
+            req.flash('success', 'Added to cart');
+            res.redirect('/books');
+        }
+    })
+})
+
+
+router.get('/cart', function(req, res, next) {
+      
+    dbConn.query('SELECT * FROM carts ORDER BY id desc',function(err,rows)     {
+ 
+        if(err) {
+            req.flash('error', err);
+            // render to views/books/index.ejs
+            res.render('books/cart',{data:''});   
+        } else {
+
+
+            // render to views/books/index.ejs
+            res.render('books/cart',{data:rows});
+            
+        }
+    });
+
+
+});
+
+
 module.exports = router;

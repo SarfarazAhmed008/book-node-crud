@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Books</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body class="container" style="margin-top: 50px;">
+
+    <div class="row justify-content-center">
+        <% if (messages.success) { %>
+            <div class="alert alert-success" role="alert"><%- messages.success %></div>
+            <% } %>
+        
+            <% if (messages.error) { %>
+            <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+            <% } %>
+        
+            <div class="card" style="width: 25rem;"> 
+                <div class="card-header">
+                    <ul class="nav nav-pills w-100">
+                        <li class="nav-pill active">
+                            <a class="nav-link">Cart</a>
+                        </li>
+                        <li class="nav-pill ml-auto">
+                            <a class="nav-link active" href="/books/add">Add Book</a>
+                        </li>
+                        <li class="nav-pill ml-auto">
+                            <a class="nav-link active" href="/books/cart">View Cart</a>
+                        </li>
+                    </ul>
+                </div>
+            <div class="card-body">
+                
+                <% if(data.length) { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% for(var i = 0; i< data.length; i++) { %>
+                        <tr>
+                            <th scope="row"><%= (i+1) %></th>
+                            <td><%= data[i].bookName%></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+                <% } %>
+                
+                <!-- if result is empty -->
+                <% if(!data.length) { %>
+                    <p class="text-center">No book found!</p>
+                <% } %>
+        
+                </div>
+            </div>
+    </div>
+
+</body>
+</html>
