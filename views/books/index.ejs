@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Books</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 </head>
 <body class="container" style="margin-top: 50px;">
 
@@ -25,6 +26,9 @@
                 <li class="nav-pill ml-auto">
                     <a class="nav-link active" href="/books/add">Add Book</a>
                 </li>
+                <li class="nav-pill ml-auto">
+                    <a class="nav-link active" href="/books/cart">View Cart</a>
+                </li>
             </ul>
         </div>
     <div class="card-body">
@@ -36,7 +40,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Author</th>
-                    <th width="200px">Action</th>
+                    <th width="300px">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,8 +50,9 @@
                     <td><%= data[i].name%></td>
                     <td><%= data[i].author%></td>
                     <td>
-                        <a class="btn btn-success edit" href="../books/edit/<%=data[i].id%>">Edit</a>                       
-                        <a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="../books/delete/<%=data[i].id%>">Delete</a>                       
+                        <a class="btn btn-success" href="../books/addtocart/<%=data[i].id%>/1/<%= data[i].name%>"><i class="fa fa-shopping-cart"></i></a>
+                        <a class="btn btn-success edit" href="../books/edit/<%=data[i].id%>"><i class="fa fa-pencil"></i></a>                       
+                        <a class="btn btn-danger delete" onclick="return alert('Are You sure?')" href="../books/delete/<%=data[i].id%>"><i class="fa fa-trash"></i></a>                       
                     </td>
                 </tr>
             <% } %>
