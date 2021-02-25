@@ -4,7 +4,11 @@ var dbConn = require('../lib/db');
 
 // display books page
 router.get('/', function (req, res, next) {
-
+    var sessions = JSON.stringify(req.sessionStore.sessions);
+    var jsobData = JSON.parse(sessions);
+    console.log(sessions);
+    var sessionCount = Object.keys(jsobData).length;
+    // console.log(sessionCount);
     if (req.session.loggedin) {
         dbConn.query('SELECT * FROM books ORDER BY id desc', function (err, rows) {
 
@@ -14,7 +18,8 @@ router.get('/', function (req, res, next) {
                 res.render('books', { data: '' });
             } else {
                 // render to views/books/index.ejs
-                res.render('books', { data: rows });
+                
+                res.render('books', { data: rows, sessionCount:sessionCount });
             }
         });
     } else {

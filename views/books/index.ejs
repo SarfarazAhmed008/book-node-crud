@@ -57,6 +57,7 @@
                     <div class="container">
                       <a class="navbar-brand" href="#">
                             <img style="width: 100px;" src="/image/logo.png" alt="">
+                            <span> Active Users: <%=sessionCount%></span>
                           </a>
                       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -97,7 +98,7 @@
                     <!-- Second Row [Team]-->
                     <h4 class="font-weight-bold mb-2">Find Your Desired books</h2>
 
-                    <% if(data.length) { %>
+                    <%if(data.length) { %>
                         <div class="row pb-5 mb-4">
                             <% for(var i=0; i< data.length; i++) { %>
                                 <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
@@ -107,7 +108,7 @@
                                                 class="w-100 card-img-top">
                                             <div class="p-4">
                                                 <h5 class="mb-0" style="height: 50px;">
-                                                    <%= data[i].name%>
+                                                    <%= data[i].name%>  
                                                 </h5>
                                                 <p class="small text-muted">
                                                     <%= data[i].author%>
