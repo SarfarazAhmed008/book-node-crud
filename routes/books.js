@@ -220,7 +220,7 @@ router.get('/cart', function (req, res, next) {
         res.redirect('/');
     } else {
         let userid = req.session.userid;
-        dbConn.query('SELECT * FROM carts WHERE userId=? ORDER BY id desc',[userid], function (err, rows) {
+        dbConn.query('SELECT * FROM carts LEFT JOIN books ON carts.bookId = books.id WHERE userId = ? ORDER BY carts.id desc',[userid], function (err, rows) {
 
             if (err) {
                 req.flash('error', err);

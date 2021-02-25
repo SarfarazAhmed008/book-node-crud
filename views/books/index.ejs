@@ -78,38 +78,30 @@
                         </ul>
                       </div>
                     </div>
-                  </nav>
-
-                    <!-- <div class="card">
-                        <div class="card-header">
-                            <ul class="nav nav-pills w-100">
-                                <li class="nav-pill active">
-                                    <a class="nav-link">Books</a>
-                                </li>
-                                <li class="nav-pill ml-auto">
-                                    <a class="nav-link active" href="/books/add">Add Book</a>
-                                </li>
-                                <li class="nav-pill ml-auto">
-                                    <a class="nav-link active" href="/books/cart">View Cart</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
-                    <!-- Second Row [Team]-->
+                  </nav>                    
                     <h4 class="font-weight-bold mb-2">Find Your Desired books</h2>
 
                     <%if(data.length) { %>
                         <div class="row pb-5 mb-4">
                             <% for(var i=0; i< data.length; i++) { %>
-                                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 shadow-lg p-3 mb-5 bg-white rounded">
                                     <!-- Card-->
-                                    <div class="card shadow-sm border-0 rounded">
+                                    <div class="card">
                                         <div class="card-body p-0"><img src="/image/book.png" alt=""
                                                 class="w-100 card-img-top">
                                             <div class="p-4">
+<<<<<<< HEAD
                                                 <h5 class="mb-0" style="height: 50px;">
                                                     <%= data[i].name%>  
+=======
+                                                <h5 class="mb-0">
+                                                    <%= data[i].name%>
+>>>>>>> b56d2ebe767140f6ad6765d885649a43453bd734
                                                 </h5>
+                                                <hr>
+                                                <h3 class="mb-0">
+                                                    <span><%= data[i].price%> ৳</span>
+                                                </h3>
                                                 <p class="small text-muted">
                                                     <%= data[i].author%>
                                                 </p>
