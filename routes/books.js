@@ -1,47 +1,47 @@
 var express = require('express');
 var router = express.Router();
-var dbConn  = require('../lib/db');
- 
+var dbConn = require('../lib/db');
+
 // display books page
-router.get('/', function(req, res, next) {
-    
+router.get('/', function (req, res, next) {
+
     if (req.session.loggedin) {
-        dbConn.query('SELECT * FROM books ORDER BY id desc',function(err,rows)     {
- 
-            if(err) {
+        dbConn.query('SELECT * FROM books ORDER BY id desc', function (err, rows) {
+
+            if (err) {
                 req.flash('error', err);
                 // render to views/books/index.ejs
-                res.render('books',{data:''});   
+                res.render('books', { data: '' });
             } else {
                 // render to views/books/index.ejs
-                res.render('books',{data:rows});
+                res.render('books', { data: rows });
             }
         });
-	} else {
-		res.redirect('/');
-	}
+    } else {
+        res.redirect('/');
+    }
 
-    
-    
+
+
 });
 
 // display add book page
-router.get('/add', function(req, res, next) {    
+router.get('/add', function (req, res, next) {
     // render to add.ejs
     res.render('books/add', {
         name: '',
-        author: ''        
+        author: ''
     })
 })
 
 // add a new book
-router.post('/add', function(req, res, next) {    
+router.post('/add', function (req, res, next) {
 
     let name = req.body.name;
     let author = req.body.author;
     let errors = false;
 
-    if(name.length === 0 || author.length === 0) {
+    if (name.length === 0 || author.length === 0) {
         errors = true;
 
         // set flash message
@@ -54,25 +54,25 @@ router.post('/add', function(req, res, next) {
     }
 
     // if no error
-    if(!errors) {
+    if (!errors) {
 
         var form_data = {
             name: name,
             author: author
         }
-        
+
         // insert query
-        dbConn.query('INSERT INTO books SET ?', form_data, function(err, result) {
+        dbConn.query('INSERT INTO books SET ?', form_data, function (err, result) {
             //if(err) throw err
             if (err) {
                 req.flash('error', err)
-                 
+
                 // render to add.ejs
                 res.render('books/add', {
                     name: form_data.name,
-                    author: form_data.author                    
+                    author: form_data.author
                 })
-            } else {                
+            } else {
                 req.flash('success', 'Book successfully added');
                 res.redirect('/books');
             }
@@ -81,13 +81,13 @@ router.post('/add', function(req, res, next) {
 })
 
 // display edit book page
-router.get('/edit/(:id)', function(req, res, next) {
+router.get('/edit/(:id)', function (req, res, next) {
 
     let id = req.params.id;
-   
-    dbConn.query('SELECT * FROM books WHERE id = ' + id, function(err, rows, fields) {
-        if(err) throw err
-         
+
+    dbConn.query('SELECT * FROM books WHERE id = ' + id, function (err, rows, fields) {
+        if (err) throw err
+
         // if user not found
         if (rows.length <= 0) {
             req.flash('error', 'Book not found with id = ' + id)
@@ -97,7 +97,7 @@ router.get('/edit/(:id)', function(req, res, next) {
         else {
             // render to edit.ejs
             res.render('books/edit', {
-                title: 'Edit Book', 
+                title: 'Edit Book',
                 id: rows[0].id,
                 name: rows[0].name,
                 author: rows[0].author
@@ -107,16 +107,16 @@ router.get('/edit/(:id)', function(req, res, next) {
 })
 
 // update book data
-router.post('/update/:id', function(req, res, next) {
+router.post('/update/:id', function (req, res, next) {
 
     let id = req.params.id;
     let name = req.body.name;
     let author = req.body.author;
     let errors = false;
 
-    if(name.length === 0 || author.length === 0) {
+    if (name.length === 0 || author.length === 0) {
         errors = true;
-        
+
         // set flash message
         req.flash('error', "Please enter name and author");
         // render to add.ejs with flash message
@@ -128,14 +128,14 @@ router.post('/update/:id', function(req, res, next) {
     }
 
     // if no error
-    if( !errors ) {   
- 
+    if (!errors) {
+
         var form_data = {
             name: name,
             author: author
         }
         // update query
-        dbConn.query('UPDATE books SET ? WHERE id = ' + id, form_data, function(err, result) {
+        dbConn.query('UPDATE books SET ? WHERE id = ' + id, form_data, function (err, result) {
             //if(err) throw err
             if (err) {
                 // set flash message
@@ -153,13 +153,13 @@ router.post('/update/:id', function(req, res, next) {
         })
     }
 })
-   
+
 // delete book
-router.get('/delete/(:id)', function(req, res, next) {
+router.get('/delete/(:id)', function (req, res, next) {
 
     let id = req.params.id;
-     
-    dbConn.query('DELETE FROM books WHERE id = ' + id, function(err, result) {
+
+    dbConn.query('DELETE FROM books WHERE id = ' + id, function (err, result) {
         //if(err) throw err
         if (err) {
             // set flash message
@@ -176,50 +176,61 @@ router.get('/delete/(:id)', function(req, res, next) {
 })
 
 // Add to cart
-router.get('/addtocart/(:id)/(:userId)/(:bookName)', function(req, res, next) {
+router.get('/addtocart/(:id)/(:bookName)', function (req, res, next) {
 
-    let id = req.params.id;
-    let userId = req.params.userId;
-    let bookName = req.params.bookName
-    console.log(id);
-    console.log(userId);
+    if (!req.session.loggedin) {
+        res.redirect('/');
+    } else {
+        let id = req.params.id;
+        let userId = req.session.userid;
+        let bookName = req.params.bookName
+        console.log(id);
+        console.log(userId);
 
-    var form_data = {
-        bookId: id,
-        userId: userId,
-        bookName: bookName
-    }
-     
-    // insert query
-    dbConn.query('INSERT INTO carts SET ?', form_data, function(err, result) {
-        //if(err) throw err
-        if (err) {
-            req.flash('error', err)
-                
-        } else {                
-            req.flash('success', 'Added to cart');
-            res.redirect('/books');
+        var form_data = {
+            bookId: id,
+            userId: userId,
+            bookName: bookName
         }
-    })
+
+        // insert query
+        dbConn.query('INSERT INTO carts SET ?', form_data, function (err, result) {
+            //if(err) throw err
+            if (err) {
+                req.flash('error', err)
+
+            } else {
+                req.flash('success', 'Added to cart');
+                res.redirect('/books');
+            }
+        });
+    }
+
 })
 
 
-router.get('/cart', function(req, res, next) {
-      
-    dbConn.query('SELECT * FROM carts ORDER BY id desc',function(err,rows)     {
- 
-        if(err) {
-            req.flash('error', err);
-            // render to views/books/index.ejs
-            res.render('books/cart',{data:''});   
-        } else {
+router.get('/cart', function (req, res, next) {
 
+    if (!req.session.loggedin) {
+        res.redirect('/');
+    } else {
+        let userid = req.session.userid;
+        dbConn.query('SELECT * FROM carts WHERE userId=? ORDER BY id desc',[userid], function (err, rows) {
 
-            // render to views/books/index.ejs
-            res.render('books/cart',{data:rows});
-            
-        }
-    });
+            if (err) {
+                req.flash('error', err);
+                // render to views/books/index.ejs
+                res.render('books/cart', { data: '' });
+            } else {
+    
+    
+                // render to views/books/index.ejs
+                res.render('books/cart', { data: rows });
+    
+            }
+        });
+    }
+    
 
 
 });
