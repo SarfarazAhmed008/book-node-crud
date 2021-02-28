@@ -14,6 +14,7 @@
 
 
 
+
     <style>
         .social-link {
             width: 30px;
@@ -34,7 +35,6 @@
             text-decoration: none;
             color: #555;
         }
-        
     </style>
 </head>
 
@@ -53,77 +53,97 @@
                 <% } %>
 
 
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-                    <div class="container">
-                      <a class="navbar-brand" href="#">
-                            <img style="width: 100px;" src="/image/logo.png" alt="">
-                          </a>
-                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                          </button>
-                      <div class="collapse navbar-collapse" id="navbarResponsive">
-                        <ul class="navbar-nav ml-auto">
-                          <li class="nav-item active">
-                            <a class="nav-link" href="/books">Home
-                                  <span class="sr-only">(current)</span>
-                                </a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="/books/add">Add Book</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="/books/cart">View Cart</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </nav>                    
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+                        <div class="container">
+                            <a class="navbar-brand" href="#">
+                                <img style="width: 100px;" src="/image/logo.png" alt="">
+                            </a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarResponsive">
+                                <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="/books">Home
+                                            <span class="sr-only">(current)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/books/add">Add Book</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/books/cart">View Cart</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
                     <h4 class="font-weight-bold mb-2">Find Your Desired books</h2>
 
-                    <% if(data.length) { %>
-                        <div class="row pb-5 mb-4">
-                            <% for(var i=0; i< data.length; i++) { %>
-                                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 shadow-lg p-3 mb-5 bg-white rounded">
-                                    <!-- Card-->
-                                    <div class="card">
-                                        <div class="card-body p-0"><img src="/image/book.png" alt=""
-                                                class="w-100 card-img-top">
-                                            <div class="p-4">
-                                                <h5 class="mb-0">
-                                                    <%= data[i].name%>
-                                                </h5>
-                                                <hr>
-                                                <h3 class="mb-0">
-                                                    <span><%= data[i].price%> ৳</span>
-                                                </h3>
-                                                <p class="small text-muted">
-                                                    <%= data[i].author%>
-                                                </p>
-                                                <ul class="social mb-0 list-inline mt-3">
-                                                    <li class="list-inline-item m-0"><a
-                                                            href="../books/addtocart/<%=data[i].id%>/<%= data[i].name%>"
-                                                            class="social-link"><i class="fa fa-shopping-cart"></i></a>
-                                                    </li>
-                                                    <li class="list-inline-item m-0"><a
-                                                            href="../books/edit/<%=data[i].id%>" class="social-link"><i
-                                                                class="fa fa-pencil"></i></a></li>
-                                                    <li class="list-inline-item m-0"><a
-                                                            onclick="return alert('Are You sure?')"
-                                                            href="../books/delete/<%=data[i].id%>"
-                                                            class="social-link"><i class="fa fa-trash"></i></a></li>
-                                                </ul>
+                        <% if(data.length) { %>
+                            <div class="row pb-5 mb-4">
+                                <% for(var i=0; i< data.length; i++) { %>
+                                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 shadow-lg p-3 mb-5 bg-white rounded">
+                                        <!-- Card-->
+                                        <div class="card">
+                                            <div class="card-body p-0"><img src="/image/book.png" alt=""
+                                                    class="w-100 card-img-top">
+                                                <div class="p-4">
+                                                    <h5 class="mb-0">
+                                                        <%= data[i].name%>
+                                                    </h5>
+                                                    <hr>
+                                                    <h3 class="mb-0">
+                                                        <span>
+                                                            <%= data[i].price%> ৳
+                                                        </span>
+                                                    </h3>
+                                                    <p class="small text-muted">
+                                                        <%= data[i].author%>
+                                                    </p>
+                                                    <ul class="social mb-0 list-inline mt-3">
+                                                        <li class="list-inline-item m-0"><a
+                                                                href="../books/addtocart/<%=data[i].id%>/<%= data[i].name%>"
+                                                                class="social-link"><i
+                                                                    class="fa fa-shopping-cart"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item m-0"><a
+                                                                href="../books/edit/<%=data[i].id%>"
+                                                                class="social-link"><i class="fa fa-pencil"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item m-0"><a
+                                                                onclick="return alert('Are You sure?')"
+                                                                href="../books/delete/<%=data[i].id%>"
+                                                                class="social-link"><i class="fa fa-trash"></i></a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <% } %>
-                        </div>
-                        <% } %>
-                            <!-- if result is empty -->
-                            <% if(!data.length) { %>
-                                <p class="text-center">No book found!</p>
-                                <% } %>
+                                    <% } %>
+                            </div>
+                            <% } %>
+                                <!-- if result is empty -->
+                                <% if(!data.length) { %>
+                                    <p class="text-center">No book found!</p>
+                                    <% } %>
 
+                                        <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+                                        <script
+                                            src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+                                        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+                                        <script type="text/babel">
+                                            class ActiveUser extends React.Component {
+                                              render() {
+                                                return <h1>Hello World!</h1>
+                                              }
+                                            }
+                                      
+                                            ReactDOM.render(<ActiveUser />, document.getElementById('mydiv'))
+                                          </script>
 </body>
 
 </html>
