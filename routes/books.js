@@ -4,9 +4,11 @@ var dbConn = require('../lib/db');
 
 // display books page
 router.get('/', function (req, res, next) {
-
-    
-
+    var sessions = JSON.stringify(req.sessionStore.sessions);
+    var jsobData = JSON.parse(sessions);
+    console.log(sessions);
+    var sessionCount = Object.keys(jsobData).length;
+    // console.log(sessionCount);
     if (req.session.loggedin) {
         dbConn.query('SELECT * FROM books ORDER BY id desc', function (err, rows) {
 
@@ -16,7 +18,8 @@ router.get('/', function (req, res, next) {
                 res.render('books', { data: '' });
             } else {
                 // render to views/books/index.ejs
-                res.render('books', { data: rows });
+
+                res.render('books', { data: rows, sessionCount: sessionCount });
             }
         });
     } else {
@@ -217,22 +220,22 @@ router.get('/cart', function (req, res, next) {
         res.redirect('/');
     } else {
         let userid = req.session.userid;
-        dbConn.query('SELECT * FROM carts LEFT JOIN books ON carts.bookId = books.id WHERE userId = ? ORDER BY carts.id desc',[userid], function (err, rows) {
+        dbConn.query('SELECT * FROM carts LEFT JOIN books ON carts.bookId = books.id WHERE userId = ? ORDER BY carts.id desc', [userid], function (err, rows) {
 
             if (err) {
                 req.flash('error', err);
                 // render to views/books/index.ejs
                 res.render('books/cart', { data: '' });
             } else {
-    
-    
+
+
                 // render to views/books/index.ejs
                 res.render('books/cart', { data: rows });
-    
+
             }
         });
     }
-    
+
 
 
 });

@@ -57,6 +57,9 @@
                         <div class="container">
                             <a class="navbar-brand" href="#">
                                 <img style="width: 100px;" src="/image/logo.png" alt="">
+                                Active Users: <span id="activeUser">
+                                    <%=sessionCount%>
+                                </span>
                             </a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -82,7 +85,7 @@
                     </nav>
                     <h4 class="font-weight-bold mb-2">Find Your Desired books</h2>
 
-                        <% if(data.length) { %>
+                        <%if(data.length) { %>
                             <div class="row pb-5 mb-4">
                                 <% for(var i=0; i< data.length; i++) { %>
                                     <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 shadow-lg p-3 mb-5 bg-white rounded">
@@ -129,21 +132,36 @@
                                 <% if(!data.length) { %>
                                     <p class="text-center">No book found!</p>
                                     <% } %>
+                                    <script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
+                                    <script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket=io.connect('http://localhost:3000');
+ 
+    // connection with server
+    socket.on('connect', function(){
+        console.log('Connected to Server');
+    });
 
-                                        <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-                                        <script
-                                            src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-                                        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    // message listener from server
+    socket.on('counter', function(message){
+        console.log(message);
+        $("#activeUser").text(message.count);
+        
+    });
 
-                                        <script type="text/babel">
-                                            class ActiveUser extends React.Component {
-                                              render() {
-                                                return <h1>Hello World!</h1>
-                                              }
-                                            }
-                                      
-                                            ReactDOM.render(<ActiveUser />, document.getElementById('mydiv'))
-                                          </script>
+    socket.on('message', function(message){
+        console.log(message);
+        $("#activeUser").text(message.count);
+        
+    });
+
+
+    // when disconnected from server
+    socket.on('disconnect', function(){
+        console.log('Disconnect from server');
+    });
+
+</script>                                        
 </body>
 
 </html>
