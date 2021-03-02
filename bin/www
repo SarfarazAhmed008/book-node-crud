@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('crud:server');
 var http = require('http');
+var socketIo = require('socket.io');
 
 /**
  * Get port from environment and store in Express.
@@ -21,6 +22,32 @@ console.log(port);
  */
 
 var server = http.createServer(app);
+
+var io = socketIo(server);
+
+var count = 0;
+var $ipsConnected = [];
+
+io.on('connection', function (socket) {
+    var $socketId = socket.id;
+    if (!$ipsConnected.hasOwnProperty($socketId)) {
+        $ipsConnected[$socketId] = 1;
+        count++;
+        socket.emit('counter', { count: count });
+    }
+    console.log("client is connected");
+    /* Disconnect socket */
+
+    socket.on('disconnect', function () {
+        if ($ipsConnected.hasOwnProperty($socketId)) {
+            delete $ipsConnected[$socketId];
+            count--;
+            socket.emit('counter', { count: count });
+
+        }
+
+    });
+});
 
 /**
  * Listen on provided port, on all network interfaces.
